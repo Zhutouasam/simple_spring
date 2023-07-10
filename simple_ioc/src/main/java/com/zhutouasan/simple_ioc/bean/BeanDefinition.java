@@ -1,9 +1,10 @@
 package com.zhutouasan.simple_ioc.bean;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @desc： 类的基本结构，用来描述需要ioc容器管理的对象
@@ -12,18 +13,29 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter
+@Getter
 public class BeanDefinition {
 
-    // 类名
+    // 对象名
     private String id;
 
     // 类路径
     private String beanClassName;
 
-    public String getClassPath() {
-        return this.beanClassName;
+    // 存放Bean所有属性的名称，用于获取Bean
+    private final List<String> propertyNames = new ArrayList<>();
+
+    // 存放Bean构造器所需属性的参数
+    private final List<String> constructorArguments = new LinkedList<>();
+
+    public BeanDefinition(String id, String beanClassName) {
+        this.id = id;
+        this.beanClassName = beanClassName;
+    }
+
+    public boolean hasConstructorArgumentValues() {
+        return !this.constructorArguments.isEmpty();
     }
 
 }
